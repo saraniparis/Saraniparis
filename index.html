@@ -265,6 +265,27 @@ function openMenu(){document.getElementById('sideMenu').classList.add('open');do
 function closeMenu(){document.getElementById('sideMenu').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open')}
 function goTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
 
+// Touch swipe support
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.carousel').forEach(function(car) {
+    var startX = 0;
+    var startY = 0;
+    var uid = car.id.replace('car-', '');
+    car.addEventListener('touchstart', function(e) {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    }, {passive: true});
+    car.addEventListener('touchend', function(e) {
+      var dx = startX - e.changedTouches[0].clientX;
+      var dy = startY - e.changedTouches[0].clientY;
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 30) {
+        if (dx > 0) changeSlide(uid, 1);
+        else changeSlide(uid, -1);
+      }
+    }, {passive: true});
+  });
+});
+
 // Touch/swipe support for carousels
 document.querySelectorAll('.carousel').forEach(function(car) {
   var startX = 0;
