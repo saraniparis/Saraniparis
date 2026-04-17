@@ -266,7 +266,7 @@ function closeMenu(){document.getElementById('sideMenu').classList.remove('open'
 function goTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
 
 // Touch swipe support
-document.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('load', function() {
   document.querySelectorAll('.carousel').forEach(function(car) {
     var startX = 0;
     var startY = 0;
@@ -274,14 +274,19 @@ document.addEventListener('DOMContentLoaded', function() {
     car.addEventListener('touchstart', function(e) {
       startX = e.touches[0].clientX;
       startY = e.touches[0].clientY;
+      e.stopPropagation();
     }, {passive: true});
+    car.addEventListener('touchmove', function(e) {
+      e.preventDefault();
+    }, {passive: false});
     car.addEventListener('touchend', function(e) {
       var dx = startX - e.changedTouches[0].clientX;
       var dy = startY - e.changedTouches[0].clientY;
-      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 30) {
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 20) {
         if (dx > 0) changeSlide(uid, 1);
         else changeSlide(uid, -1);
       }
+      e.stopPropagation();
     }, {passive: true});
   });
 });
