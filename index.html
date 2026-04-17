@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sarani Paris</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f2f0ed;--white:#fff;--light:#e4e1dc;--mid:#9a9188;--dark:#1a1814;--green:#2d6a4f}
+html{scroll-behavior:smooth}
+body{font-family:"Montserrat",sans-serif;background:var(--bg);color:var(--dark);overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:999;height:56px;background:rgba(242,240,237,0.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.nav-logo{position:absolute;left:50%;transform:translateX(-50%);font-family:"EB Garamond",serif;font-size:24px;letter-spacing:0.07em}
+.nav-icon{background:none;border:none;cursor:pointer;color:var(--dark);display:flex;align-items:center}
+.nav-left,.nav-right{display:flex;align-items:center;gap:14px}
+.nav-wa{width:34px;height:34px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;text-decoration:none}
+.menu-overlay{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.5);opacity:0;pointer-events:none;transition:opacity 0.3s}
+.menu-overlay.open{opacity:1;pointer-events:all}
+.side-menu{position:fixed;left:0;top:0;bottom:0;width:280px;z-index:1001;background:var(--white);transform:translateX(-100%);transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column}
+.side-menu.open{transform:translateX(0)}
+.menu-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--light)}
+.menu-header span{font-family:"EB Garamond",serif;font-size:18px;letter-spacing:0.06em}
+.menu-close{background:none;border:none;cursor:pointer;color:var(--dark)}
+.menu-items{flex:1;padding:12px 0;overflow-y:auto}
+.menu-item{display:flex;align-items:center;gap:16px;padding:18px 24px;color:var(--dark);border-bottom:1px solid var(--light);transition:background 0.15s;cursor:pointer;background:none;border-left:none;border-right:none;border-top:none;width:100%;text-align:left;font-family:"Montserrat",sans-serif}
+.menu-item:hover{background:var(--bg)}
+.menu-item-img{width:48px;height:48px;border-radius:2px;flex-shrink:0;object-fit:cover}
+.menu-item-label{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--mid);margin-bottom:3px}
+.menu-item-name{font-family:"EB Garamond",serif;font-size:17px}
+.menu-item-arrow{margin-left:auto;color:var(--mid)}
+.hero{margin-top:56px;height:calc(100svh - 56px);min-height:560px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top}
+.hero-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.28)}
+.hero-text{position:relative;z-index:2;text-align:center}
+.hero-by{font-family:"Montserrat",sans-serif;font-size:11px;letter-spacing:0.45em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:8px}
+.hero-brand{font-family:"EB Garamond",serif;font-size:52px;font-weight:400;color:#fff;letter-spacing:0.06em}
+.collections-entry{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:var(--light);padding:3px}
+.col-card{position:relative;overflow:hidden;cursor:pointer;aspect-ratio:3/4;text-decoration:none;display:block}
+.col-card img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease}
+.col-card:hover img{transform:scale(1.04)}
+.col-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.65) 0%,rgba(0,0,0,0.08) 55%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:18px 16px}
+.col-card-label{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:4px}
+.col-card-name{font-family:"EB Garamond",serif;font-size:20px;color:#fff;line-height:1.1;margin-bottom:8px}
+.col-card-cta{display:inline-flex;align-items:center;gap:5px;font-size:10px;letter-spacing:0.12em;color:#fff;border-bottom:1px solid rgba(255,255,255,0.4);padding-bottom:1px;width:fit-content}
+.col-header{padding:56px 24px 24px;text-align:center;background:var(--bg)}
+.col-header h2{font-family:"EB Garamond",serif;font-size:34px;font-weight:400;line-height:1.2;margin-bottom:12px}
+.col-header p{font-size:13px;line-height:1.75;color:var(--mid);max-width:300px;margin:0 auto 18px}
+.col-count{font-size:11px;color:var(--mid);padding-top:18px;border-top:1px solid var(--light)}
+.products-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--light)}
+.product-card{background:var(--bg);position:relative;transition:background 0.2s}
+.product-card:hover{background:var(--white)}
+.carousel{position:relative;aspect-ratio:3/4;overflow:hidden;background:#eae7e2}
+.slides{display:flex;height:100%;transition:transform 0.4s ease}
+.slide{min-width:100%;height:100%;object-fit:cover;flex-shrink:0}
+.carr-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.85);border:none;width:28px;height:28px;border-radius:50%;font-size:18px;cursor:pointer;z-index:3;display:flex;align-items:center;justify-content:center;color:var(--dark);line-height:1}
+.carr-btn.left{left:8px}.carr-btn.right{right:8px}
+.cdots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:3}
+.cdot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.5);cursor:pointer;transition:background 0.2s}
+.cdot.active{background:#fff}
+.fav-btn{position:absolute;top:12px;right:12px;z-index:4;background:none;border:none;cursor:pointer;color:rgba(255,255,255,0.7);transition:color 0.2s}
+.fav-btn:hover,.fav-btn.liked{color:#fff}
+.product-info{padding:14px 14px 18px}
+.product-cat{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--mid);margin-bottom:4px}
+.product-name{font-family:"EB Garamond",serif;font-size:18px;color:var(--dark);margin-bottom:6px}
+.product-desc{font-family:"EB Garamond",serif;font-style:italic;font-size:12px;color:var(--mid);margin-bottom:12px;line-height:1.5}
+.dots{display:flex;gap:6px;margin-bottom:14px}
+.dot{width:13px;height:13px;border-radius:50%;border:1px solid rgba(0,0,0,0.12);cursor:pointer}
+.dot.on{box-shadow:0 0 0 2px var(--bg),0 0 0 3px var(--dark)}
+.dot-noir{background:#1c1c1c}.dot-bleu{background:#1b2f5c}.dot-kaki{background:#484828}
+.dot-gris{background:#4e5560}.dot-bordeaux{background:#5c1a2a}.dot-bleu-clair{background:#4a7ab5}
+.dot-charcoal{background:#3a3a3a}.dot-bleu-marine{background:#0a1f44}.dot-beige{background:#c8bca8}
+.btn-wa{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:11px 0;background:var(--dark);color:#fff;border:none;font-family:"Montserrat",sans-serif;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:background 0.2s}
+.btn-wa:hover{background:#2c2925}
+.product-price{font-family:"EB Garamond",serif;font-size:17px;color:var(--dark);margin-bottom:14px;letter-spacing:0.03em}
+.promo-tag{display:inline-block;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--mid);border:1px solid var(--light);padding:3px 8px;margin-bottom:10px}
+.saudi-section{background:#f5f2ed;display:flex;align-items:center;justify-content:center;padding:56px 24px}
+.saudi-section img{max-width:280px;width:100%;height:auto}
+.section-sep{height:1px;background:var(--light);margin:0 24px}
+.about{padding:68px 24px;background:var(--white);text-align:center}
+.about-eye{font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:var(--mid);margin-bottom:20px}
+.about h2{font-family:"EB Garamond",serif;font-size:34px;font-weight:400;line-height:1.2;margin-bottom:22px}
+.about h2 em{font-style:italic}
+.about p{font-size:13px;line-height:1.85;color:#555;max-width:300px;margin:0 auto 12px}
+.about .italic{font-family:"EB Garamond",serif;font-style:italic;font-size:15px;color:var(--mid)}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;margin-top:28px;padding:12px 26px;background:none;border:1px solid var(--dark);color:var(--dark);font-family:"Montserrat",sans-serif;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:all 0.2s}
+.btn-outline:hover{background:var(--dark);color:#fff}
+footer{background:var(--dark);color:#fff;padding:48px 24px 36px;text-align:center}
+.footer-logo{font-family:"EB Garamond",serif;font-size:22px;letter-spacing:0.1em;margin-bottom:6px}
+.footer-sub{font-size:9px;letter-spacing:0.35em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:30px}
+.footer-links{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:30px}
+.footer-links a{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s}
+.footer-links a:hover{color:#fff}
+.footer-copy{font-size:11px;color:rgba(255,255,255,0.15);padding-top:22px;border-top:1px solid rgba(255,255,255,0.07)}
+.wa-fab{position:fixed;bottom:22px;right:22px;z-index:998;width:52px;height:52px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(45,106,79,0.4);text-decoration:none;transition:transform 0.2s}
+.wa-fab:hover{transform:scale(1.07)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <button class="nav-icon" onclick="openMenu()">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+    </button>
+  </div>
+  <div class="nav-logo">Sarani Paris</div>
+  <div class="nav-right">
+    <a href="https://wa.me/33619569050" class="nav-wa">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.122 1.526 5.858L.057 23.5l5.806-1.469A11.951 11.951 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.846 0-3.574-.49-5.071-1.347l-.361-.213-3.745.948.992-3.635-.235-.374A9.944 9.944 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+    </a>
+  </div>
+</nav>
+
+<div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+<div class="side-menu" id="sideMenu">
+  <div class="menu-header">
+    <span>Collections</span>
+    <button class="menu-close" onclick="closeMenu()"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div>
+  <div class="menu-items">
+    <button class="menu-item" onclick="goTo('layali');closeMenu()">
+      <img class="menu-item-img" src="https://i.ibb.co/LLD7WMd/09-C9937-F-F3-CA-4-CE2-8738-00-B73333-F58-F.jpg" alt="Abaya Layali">
+      <div><div class="menu-item-label">Collection 01</div><div class="menu-item-name">Abaya Layali</div></div>
+      <svg class="menu-item-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+    <button class="menu-item" onclick="goTo('blazer');closeMenu()">
+      <img class="menu-item-img" src="https://i.ibb.co/XrNF0V5f/temp-image-E9-F04-F55-B3-D3-4-F47-93-D2-62-C3-F5811375.jpg" alt="Abaya Blazer">
+      <div><div class="menu-item-label">Collection 02</div><div class="menu-item-name">Abaya Blazer</div></div>
+      <svg class="menu-item-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+    <button class="menu-item" onclick="goTo('omaniya');closeMenu()">
+      <img class="menu-item-img" src="https://i.ibb.co/xqqMqLJS/IMG-6869.jpg" alt="Abaya Omaniya">
+      <div><div class="menu-item-label">Collection 03</div><div class="menu-item-name">Abaya Omaniya</div></div>
+      <svg class="menu-item-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+    <button class="menu-item" onclick="goTo('saudi');closeMenu()">
+      <img class="menu-item-img" src="https://i.ibb.co/21ZbFMYL/IMG-6835.jpg" alt="Saudi Collective" style="object-fit:contain;background:#f5f2ed">
+      <div><div class="menu-item-label">Collection 04</div><div class="menu-item-name">Saudi Collective</div></div>
+      <svg class="menu-item-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+</div>
+
+<div style="background:var(--dark);color:#fff;text-align:center;padding:10px 20px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;margin-top:56px;">−10% sur la 2ème abaya choisie</div>
+<section class="hero" style="margin-top:0">
+  <img class="hero-img" src="https://i.ibb.co/Mkz2MQgn/IMG-6875.jpg" alt="Sarani Paris">
+  <div class="hero-overlay"></div>
+  <div class="hero-text"><p class="hero-by">By</p><h1 class="hero-brand">Sarani Paris</h1></div>
+</section>
+
+<div class="collections-entry" id="collections">
+  <a class="col-card" href="#layali"><img src="https://i.ibb.co/LLD7WMd/09-C9937-F-F3-CA-4-CE2-8738-00-B73333-F58-F.jpg" alt="Abaya Layali"><div class="col-card-overlay"><div class="col-card-label">Collection 01</div><div class="col-card-name">Abaya Layali</div><div class="col-card-cta">Découvrir</div></div></a>
+  <a class="col-card" href="#blazer"><img src="https://i.ibb.co/XrNF0V5f/temp-image-E9-F04-F55-B3-D3-4-F47-93-D2-62-C3-F5811375.jpg" alt="Abaya Blazer"><div class="col-card-overlay"><div class="col-card-label">Collection 02</div><div class="col-card-name">Abaya Blazer</div><div class="col-card-cta">Découvrir</div></div></a>
+  <a class="col-card" href="#omaniya"><img src="https://i.ibb.co/xqqMqLJS/IMG-6869.jpg" alt="Abaya Omaniya"><div class="col-card-overlay"><div class="col-card-label">Collection 03</div><div class="col-card-name">Abaya Omaniya</div><div class="col-card-cta">Découvrir</div></div></a>
+  <a class="col-card" href="#saudi" style="background:#f5f2ed"><img src="https://i.ibb.co/21ZbFMYL/IMG-6835.jpg" alt="Saudi Collective" style="object-fit:contain"><div class="col-card-overlay"><div class="col-card-label">Collection 04</div><div class="col-card-name">Saudi Collective</div><div class="col-card-cta">Découvrir</div></div></a>
+</div>
+
+<!-- LAYALI -->
+
+<div id="layali">
+  <div class="col-header"><h2>Abaya Layali</h2><p>Velours de luxe · Chaque pièce cousue à la main depuis Paris</p><div class="col-count">4 Article(s)</div></div>
+  <div class="products-grid">
+    <div class="product-card"><div class="carousel" id="car-noir"><div class="slides"><img src="https://i.ibb.co/LLD7WMd/09-C9937-F-F3-CA-4-CE2-8738-00-B73333-F58-F.jpg" class="slide"><img src="https://i.ibb.co/bMRjWRJN/EB0-D68-EA-3-AE3-46-EF-9-AB2-8-B97-EB0-D756-F.jpg" class="slide"><img src="https://i.ibb.co/XfGW2hjy/62767857-154-C-459-A-AD18-F35-C47941-B2-D-2.jpg" class="slide"></div><button class="carr-btn left" onclick="changeSlide('noir',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('noir',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Layali · Velours</p><h3 class="product-name">Noir Absolu</h3><p class="product-desc">Portez la nuit, soyez la nuit.</p><div class="dots"><div class="dot dot-noir on"></div></div><p class="product-price">95 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Layali Noir Absolu" class="btn-wa">Commander</a></div></div>
+    <div class="product-card"><div class="carousel" id="car-bleu"><div class="slides"><img src="https://i.ibb.co/QvTnGbxr/FC011-E42-D0-F5-43-C5-BB8-F-863-D7841-D06-D.jpg" class="slide"><img src="https://i.ibb.co/KpP2qJ3w/E6-D576-C5-6-A92-4-EA4-8-D7-F-20630-D086358.jpg" class="slide"><img src="https://i.ibb.co/vrmgLtV/3-B1-AA5-A4-7449-40-F5-A83-C-299-A47-F18-E41.jpg" class="slide"></div><button class="carr-btn left" onclick="changeSlide('bleu',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('bleu',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Layali · Velours</p><h3 class="product-name">Bleu Royal</h3><p class="product-desc">La majesté du velours dans sa teinte la plus noble.</p><div class="dots"><div class="dot dot-bleu on"></div></div><p class="product-price">95 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Layali Bleu Royal" class="btn-wa">Commander</a></div></div>
+    <div class="product-card"><div class="carousel" id="car-kaki"><div class="slides"><img src="https://i.ibb.co/67chVbG4/2-B303-AFE-FE98-4374-B4-D4-93-FC1582-AE40.jpg" class="slide"><img src="https://i.ibb.co/pvJK4zP9/D270-E66-D-9-DF1-4772-B80-B-8377-E64-E7084.jpg" class="slide"><img src="https://i.ibb.co/LzTRCxzn/BFAA9188-9-E5-A-405-A-A335-5-D5231-BBF631.jpg" class="slide"></div><button class="carr-btn left" onclick="changeSlide('kaki',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('kaki',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Layali · Velours</p><h3 class="product-name">Kaki</h3><p class="product-desc">Élégance naturelle, beauté intemporelle.</p><div class="dots"><div class="dot dot-kaki on"></div></div><p class="product-price">95 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Layali Kaki" class="btn-wa">Commander</a></div></div>
+    <div class="product-card"><div class="carousel" id="car-gris"><div class="slides"><img src="https://i.ibb.co/sdCKLJp4/98805758-75c3-4b95-a9c4-5ac0e8b2d87b.jpg" class="slide"><img src="https://i.ibb.co/6VwTN1V/IMG-1097.jpg" class="slide"></div><button class="carr-btn left" onclick="changeSlide('gris',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('gris',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Layali · Velours</p><h3 class="product-name">Gris Acier</h3><p class="product-desc">Sobre, raffinée, inoubliable.</p><div class="dots"><div class="dot dot-gris on"></div></div><p class="product-price">95 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Layali Gris Acier" class="btn-wa">Commander</a></div></div>
+  </div>
+</div>
+
+<div class="section-sep"></div>
+
+<!-- BLAZER -->
+
+<div id="blazer">
+  <div class="col-header"><h2>Abaya Blazer</h2><p>Coupe couture · Taillé et assemblé à la main depuis Paris</p><div class="col-count">6 Article(s)</div></div>
+  <div class="products-grid">
+    <div class="product-card"><div class="carousel" id="car-bz1"><div class="slides"><img src="https://i.ibb.co/XrNF0V5f/temp-image-E9-F04-F55-B3-D3-4-F47-93-D2-62-C3-F5811375.jpg" class="slide"><img src="https://i.ibb.co/v4GgwkX6/IMG-9794.jpg" class="slide"><img src="https://i.ibb.co/6Jq3v3W9/IMG-9782.jpg" class="slide"></div><button class="carr-btn left" onclick="changeSlide('bz1',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('bz1',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Blazer</p><h3 class="product-name">Gris Chiné</h3><p class="product-desc">La classe parisienne dans toute sa finesse.</p><div class="dots"><div class="dot dot-beige on"></div></div><p class="product-price">69,90 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Blazer Gris Chiné" class="btn-wa">Commander</a></div></div>
+    <div class="product-card"><div class="carousel" id="car-bz2"><div class="slides"><img src="https://i.ibb.co/mVwKBDbZ/IMG-9809.jpg" class="slide"><img src="https://i.ibb.co/dJPV1LzL/IMG-9807.jpg" class="slide"><img src="https://i.ibb.co/yc2GZ5Q1/IMG-9808.jpg" class="slide"></div><button class="carr-btn left" onclick="changeSlide('bz2',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('bz2',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Blazer · Rayé</p><h3 class="product-name">Gris Rayé</h3><p class="product-desc">Style architectural qui sublime la silhouette.</p><div class="dots"><div class="dot dot-gris on"></div></div><p class="product-price">69,90 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Blazer Gris Rayé" class="btn-wa">Commander</a></div></div>
+    <div class="product-card"><div class="carousel" id="car-bz3"><div class="slides"><img src="https://i.ibb.co/fGnBjvNP/IMG-6859.jpg" class="slide"><img src="https://i.ibb.co/F4Xxcjg0/IMG-7331.jpg" class="slide"><img src="https://i.ibb.co/cPV70sX/7-B12-A499-B5-AE-464-F-993-B-62-F12-F253457.jpg" class="slide"></div><button class="carr-btn left" onclick="changeSlide('bz3',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('bz3',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Blazer · Rayé</p><h3 class="product-name">Bleu Clair Rayé</h3><p class="product-desc">La douceur du bleu dans une coupe couture parfaite.</p><div class="dots"><div class="dot dot-bleu-clair on"></div></div><p class="product-price">69,90 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Blazer Bleu Clair Rayé" class="btn-wa">Commander</a></div></div>
+    <div class="product-card"><div class="carousel" id="car-bz4"><div class="slides"><img src="https://i.ibb.co/ccSpTLRc/IMG-0142.jpg" class="slide"><img src="https://i.ibb.co/bjRDGpBk/IMG-0136.jpg" class="slide"><img src="https://i.ibb.co/tT0b5Vhv/IMG-1070.jpg" class="slide"></div><button class="carr-btn left" onclick="changeSlide('bz4',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('bz4',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Blazer</p><h3 class="product-name">Charcoal Grey</h3><p class="product-desc">L'élégance sombre dans toute sa splendeur.</p><div class="dots"><div class="dot dot-charcoal on"></div></div><p class="product-price">69,90 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Blazer Charcoal Grey" class="btn-wa">Commander</a></div></div>
+    <div class="product-card"><div class="carousel" id="car-bz5"><div class="slides"><img src="https://i.ibb.co/R4y7CJkV/IMG-6862.jpg" class="slide"><img src="https://i.ibb.co/Lhbq1cjw/IMG-1158.jpg" class="slide"><img src="https://i.ibb.co/MxSxXbZd/IMG-1160.jpg" class="slide"></div><button class="carr-btn left" onclick="changeSlide('bz5',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('bz5',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Blazer · Rayé</p><h3 class="product-name">Rayé Noir</h3><p class="product-desc">La nuit parisienne sublimée en rayures fines.</p><div class="dots"><div class="dot dot-noir on"></div></div><p class="product-price">69,90 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Blazer Rayé Noir" class="btn-wa">Commander</a></div></div>
+    <div class="product-card"><div class="carousel" id="car-bz6"><div class="slides"><img src="https://i.ibb.co/sdDYQSz0/05fb97f6-184c-4f10-9155-d68bcf1e058c.jpg" class="slide"><img src="https://i.ibb.co/gK5N0gw/IMG-6854.jpg" class="slide"><img src="https://i.ibb.co/JWk9pf7k/IMG-6853.jpg" class="slide"></div><button class="carr-btn left" onclick="changeSlide('bz6',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('bz6',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Blazer · Rayé</p><h3 class="product-name">Bleu Marine Rayé</h3><p class="product-desc">La profondeur du bleu marine en coupe couture.</p><div class="dots"><div class="dot dot-bleu-marine on"></div></div><p class="product-price">69,90 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Blazer Bleu Marine Rayé" class="btn-wa">Commander</a></div></div>
+  </div>
+</div>
+
+<div class="section-sep"></div>
+
+<!-- OMANIYA -->
+
+<div id="omaniya">
+  <div class="col-header"><h2>Abaya Omaniya</h2><p>Broderies artisanales · Velours précieux · Paris</p><div class="col-count">2 Article(s)</div></div>
+  <div class="products-grid">
+    <div class="product-card"><div class="carousel" id="car-om1"><div class="slides"><img src="https://i.ibb.co/xqqMqLJS/IMG-6869.jpg" class="slide"><img src="https://i.ibb.co/t10tFzP/IMG-6867.jpg" class="slide"><img src="https://i.ibb.co/svMcCk4m/IMG-6809.jpg" class="slide"><img src="https://i.ibb.co/6RCNFb4M/IMG-6808.jpg" class="slide"><img src="https://i.ibb.co/bRqQbQVt/IMG-0963.jpg" class="slide"></div><button class="carr-btn left" onclick="changeSlide('om1',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('om1',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span><span class="cdot"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Omaniya · Velours</p><h3 class="product-name">Rouge Velvet Absolu</h3><p class="product-desc">Broderies dorées sur velours rouge. Un chef-d'œuvre artisanal.</p><div class="dots"><div class="dot dot-bordeaux on"></div></div><p class="product-price">99 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Omaniya Rouge Velvet Absolu" class="btn-wa">Commander</a></div></div>
+    <div class="product-card"><div class="carousel" id="car-om2"><div class="slides"><img src="https://i.ibb.co/x8DPQPpv/IMG-6871.jpg" class="slide"><img src="https://i.ibb.co/wFPVrWZM/IMG-0927.jpg" class="slide"><img src="https://i.ibb.co/9HpMvxJ3/IMG-0925.jpg" class="slide"><img src="https://i.ibb.co/nKNCCKg/IMG-0924.jpg" class="slide"><img src="https://i.ibb.co/ynTQQSMG/IMG-0905.jpg" class="slide"></div><button class="carr-btn left" onclick="changeSlide('om2',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('om2',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span><span class="cdot"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Omaniya · Velours</p><h3 class="product-name">Noir Velvet</h3><p class="product-desc">L'élégance absolue du velours noir brodé à la main.</p><div class="dots"><div class="dot dot-noir on"></div></div><p class="product-price">99 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Omaniya Noir Velvet" class="btn-wa">Commander</a></div></div>
+  </div>
+</div>
+
+<div class="section-sep"></div>
+
+<!-- SAUDI -->
+
+<div id="saudi">
+  <div class="saudi-section"><img src="https://i.ibb.co/21ZbFMYL/IMG-6835.jpg" alt="Saudi Collective"></div>
+  <div class="col-header"><h2>Saudi Collective</h2><p>By Sarani Paris · Collection exclusive inspirée de l'élégance saoudienne</p><div class="col-count">Bientôt disponible</div></div>
+</div>
+
+<!-- ABOUT -->
+
+<section class="about">
+  <p class="about-eye">Notre Savoir-Faire</p>
+  <h2>Chaque point,<br>un <em>geste d'amour</em></h2>
+  <p>Sarani Paris, c'est l'histoire de deux sœurs unies par une même passion — créer des pièces uniques, cousues et brodées à la main avec amour et savoir-faire.</p>
+  <p>Retrait de commande disponible en Île-de-France · Paiement en espèces disponible en Île-de-France</p>
+
+<a href="https://wa.me/33619569050" class="btn-outline">Commander une pièce</a>
+
+</section>
+
+<footer>
+  <div class="footer-logo">Sarani Paris</div>
+  <div class="footer-sub">Maison de Couture · Paris</div>
+  <div class="footer-links">
+    <a href="#layali">Abaya Layali</a>
+    <a href="#blazer">Abaya Blazer</a>
+    <a href="#omaniya">Abaya Omaniya</a>
+    <a href="#saudi">Saudi Collective</a>
+    <a href="https://wa.me/33619569050">Contact</a>
+  </div>
+  <div class="footer-copy">© 2025 Sarani Paris. Tous droits réservés.</div>
+</footer>
+
+<a href="https://wa.me/33619569050" class="wa-fab">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.122 1.526 5.858L.057 23.5l5.806-1.469A11.951 11.951 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.846 0-3.574-.49-5.071-1.347l-.361-.213-3.745.948.992-3.635-.235-.374A9.944 9.944 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+</a>
+
+<script>
+var carState={};
+function changeSlide(uid,dir){
+  var car=document.getElementById('car-'+uid);
+  var slides=car.querySelector('.slides');
+  var n=slides.children.length;
+  if(!carState[uid])carState[uid]=0;
+  carState[uid]=(carState[uid]+dir+n)%n;
+  slides.style.transform='translateX(-'+(carState[uid]*100)+'%)';
+  car.querySelectorAll('.cdot').forEach(function(d,i){d.classList.toggle('active',i===carState[uid])});
+}
+function openMenu(){document.getElementById('sideMenu').classList.add('open');document.getElementById('menuOverlay').classList.add('open')}
+function closeMenu(){document.getElementById('sideMenu').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open')}
+function goTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+</script>
+
+</body>
+</html>
