@@ -9,8 +9,8 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#f2f0ed;--white:#fff;--light:#e4e1dc;--mid:#9a9188;--dark:#1a1814;--green:#2d6a4f}
-html{scroll-behavior:smooth;max-width:100vw;overflow-x:hidden}
-body{font-family:"Montserrat",sans-serif;background:var(--bg);color:var(--dark);overflow-x:hidden;max-width:100vw}
+html{scroll-behavior:smooth}
+body{font-family:"Montserrat",sans-serif;background:var(--bg);color:var(--dark);overflow-x:hidden}
 nav{position:fixed;top:0;left:0;right:0;z-index:999;height:56px;background:rgba(242,240,237,0.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:space-between;padding:0 20px}
 .nav-logo{position:absolute;left:50%;transform:translateX(-50%);font-family:"EB Garamond",serif;font-size:24px;letter-spacing:0.07em}
 .nav-icon{background:none;border:none;cursor:pointer;color:var(--dark);display:flex;align-items:center}
@@ -48,57 +48,75 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:56px;background:rgba(
 .col-header h2{font-family:"EB Garamond",serif;font-size:34px;font-weight:400;line-height:1.2;margin-bottom:12px}
 .col-header p{font-size:13px;line-height:1.75;color:var(--mid);max-width:300px;margin:0 auto 18px}
 .col-count{font-size:11px;color:var(--mid);padding-top:18px;border-top:1px solid var(--light)}
-.products-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--light);width:100%;overflow:hidden}
-.product-card{background:var(--bg);position:relative;transition:background 0.2s;width:100%;overflow:hidden}
+.products-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--light)}
+.product-card{background:var(--bg);position:relative;transition:background 0.2s}
 .product-card:hover{background:var(--white)}
-
-/* CAROUSEL FIX */
-.carousel{position:relative;width:100%;aspect-ratio:3/4;overflow:hidden;background:#eae7e2;display:block}
-.slides{display:flex;flex-direction:row;flex-wrap:nowrap;width:100%;height:100%;transition:transform 0.4s ease;will-change:transform}
-.slide{display:block;width:100%;min-width:100%;max-width:100%;height:100%;object-fit:cover;flex-shrink:0;flex-grow:0}
-
-.carr-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.7);border:none;width:32px;height:32px;border-radius:50%;font-size:20px;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;color:var(–dark);line-height:1;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.carousel{position:relative;width:100%;overflow-x:scroll;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;display:flex;background:#eae7e2;scrollbar-width:none}.carousel::-webkit-scrollbar{display:none}
+.slides{display:flex;height:100%;width:100%}
+.slide{min-width:100%;width:100%;aspect-ratio:3/4;object-fit:cover;flex-shrink:0;scroll-snap-align:start}
+.carr-btn{display:none}
 .carr-btn.left{left:8px}.carr-btn.right{right:8px}
 .cdots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:3}
 .cdot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.5);cursor:pointer;transition:background 0.2s}
 .cdot.active{background:#fff}
 .fav-btn{position:absolute;top:12px;right:12px;z-index:4;background:none;border:none;cursor:pointer;color:rgba(255,255,255,0.7);transition:color 0.2s}
 .fav-btn:hover,.fav-btn.liked{color:#fff}
-.product-info{padding:10px 10px 14px}
-.product-cat{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(–mid);margin-bottom:4px}
-.product-name{font-family:“EB Garamond”,serif;font-size:15px;color:var(–dark);margin-bottom:6px}
-.product-desc{font-family:“EB Garamond”,serif;font-style:italic;font-size:11px;color:var(–mid);margin-bottom:12px;line-height:1.5}
+.product-info{padding:14px 14px 18px}
+.product-cat{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--mid);margin-bottom:4px}
+.product-name{font-family:"EB Garamond",serif;font-size:18px;color:var(--dark);margin-bottom:6px}
+.product-desc{font-family:"EB Garamond",serif;font-style:italic;font-size:12px;color:var(--mid);margin-bottom:12px;line-height:1.5}
 .dots{display:flex;gap:6px;margin-bottom:14px}
 .dot{width:13px;height:13px;border-radius:50%;border:1px solid rgba(0,0,0,0.12);cursor:pointer}
-.dot.on{box-shadow:0 0 0 2px var(–bg),0 0 0 3px var(–dark)}
+.dot.on{box-shadow:0 0 0 2px var(--bg),0 0 0 3px var(--dark)}
 .dot-noir{background:#1c1c1c}.dot-bleu{background:#1b2f5c}.dot-kaki{background:#484828}
 .dot-gris{background:#4e5560}.dot-bordeaux{background:#5c1a2a}.dot-bleu-clair{background:#4a7ab5}
 .dot-charcoal{background:#3a3a3a}.dot-bleu-marine{background:#0a1f44}.dot-beige{background:#c8bca8}
-.btn-wa{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:10px 0;background:var(–dark);color:#fff;border:none;border-radius:30px;font-family:“Montserrat”,sans-serif;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:background 0.2s}
+.btn-wa{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:14px 0;background:var(--dark);color:#fff;border:none;border-radius:30px;font-family:"Montserrat",sans-serif;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:background 0.2s}
 .btn-wa:hover{background:#2c2925}
-.product-price{font-family:“Montserrat”,sans-serif;font-size:15px;font-weight:500;color:var(–dark);margin-bottom:12px;letter-spacing:0.03em}
+.product-price{font-family:"Montserrat",sans-serif;font-size:15px;font-weight:500;color:var(--dark);margin-bottom:12px;letter-spacing:0.03em}
+.promo-tag{display:inline-block;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--mid);border:1px solid var(--light);padding:3px 8px;margin-bottom:10px}
 .saudi-section{background:#f5f2ed;display:flex;align-items:center;justify-content:center;padding:56px 24px}
 .saudi-section img{max-width:280px;width:100%;height:auto}
-.section-sep{height:1px;background:var(–light);margin:0 24px}
-.about{padding:68px 24px;background:var(–white);text-align:center}
-.about-eye{font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:var(–mid);margin-bottom:20px}
-.about h2{font-family:“EB Garamond”,serif;font-size:34px;font-weight:400;line-height:1.2;margin-bottom:22px}
+.section-sep{height:1px;background:var(--light);margin:0 24px}
+.about{padding:68px 24px;background:var(--white);text-align:center}
+.about-eye{font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:var(--mid);margin-bottom:20px}
+.about h2{font-family:"EB Garamond",serif;font-size:34px;font-weight:400;line-height:1.2;margin-bottom:22px}
 .about h2 em{font-style:italic}
 .about p{font-size:13px;line-height:1.85;color:#555;max-width:300px;margin:0 auto 12px}
-.about .italic{font-family:“EB Garamond”,serif;font-style:italic;font-size:15px;color:var(–mid)}
-.btn-outline{display:inline-flex;align-items:center;gap:8px;margin-top:28px;padding:12px 26px;background:none;border:1px solid var(–dark);color:var(–dark);font-family:“Montserrat”,sans-serif;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:all 0.2s}
-.btn-outline:hover{background:var(–dark);color:#fff}
-footer{background:var(–dark);color:#fff;padding:48px 24px 36px;text-align:center}
-.footer-logo{font-family:“EB Garamond”,serif;font-size:22px;letter-spacing:0.1em;margin-bottom:6px}
+.about .italic{font-family:"EB Garamond",serif;font-style:italic;font-size:15px;color:var(--mid)}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;margin-top:28px;padding:12px 26px;background:none;border:1px solid var(--dark);color:var(--dark);font-family:"Montserrat",sans-serif;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:all 0.2s}
+.btn-outline:hover{background:var(--dark);color:#fff}
+footer{background:var(--dark);color:#fff;padding:48px 24px 36px;text-align:center}
+.footer-logo{font-family:"EB Garamond",serif;font-size:22px;letter-spacing:0.1em;margin-bottom:6px}
 .footer-sub{font-size:9px;letter-spacing:0.35em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:30px}
 .footer-links{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin-bottom:30px}
 .footer-links a{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.4);text-decoration:none;transition:color 0.2s}
 .footer-links a:hover{color:#fff}
 .footer-copy{font-size:11px;color:rgba(255,255,255,0.15);padding-top:22px;border-top:1px solid rgba(255,255,255,0.07)}
-.wa-fab{position:fixed;bottom:22px;right:22px;z-index:998;width:52px;height:52px;border-radius:50%;background:var(–green);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(45,106,79,0.4);text-decoration:none;transition:transform 0.2s}
+.wa-fab{position:fixed;bottom:22px;right:22px;z-index:998;width:52px;height:52px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(45,106,79,0.4);text-decoration:none;transition:transform 0.2s}
 .wa-fab:hover{transform:scale(1.07)}
-</style>
 
+/* LIGHTBOX */
+.lightbox{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.95);align-items:center;justify-content:center}
+.lightbox.open{display:flex}
+.lightbox img{max-width:95vw;max-height:95vh;object-fit:contain}
+.lightbox-close{position:absolute;top:20px;right:20px;color:#fff;font-size:32px;cursor:pointer;background:none;border:none;line-height:1}
+
+/* MOBILE FIXES */
+html, body { max-width: 100vw; overflow-x: hidden; }
+.products-grid { grid-template-columns: 1fr 1fr; width: 100%; overflow: hidden; }
+.product-card { width: 100%; overflow: hidden; max-width: 50vw; }
+.carousel { width: 100%; }
+
+.slide { min-width: 100%; max-width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; }
+.col-header { padding: 40px 16px 20px; }
+.product-info { padding: 10px 10px 14px; }
+.product-name { font-size: 15px; }
+.product-desc { font-size: 11px; }
+.product-price { font-size: 15px; }
+.btn-wa { font-size: 9px; padding: 10px 0; }
+
+</style>
 </head>
 <body>
 
@@ -147,7 +165,6 @@ footer{background:var(–dark);color:#fff;padding:48px 24px 36px;text-align:cent
 </div>
 
 <div style="text-align:center;padding:7px 20px;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--mid);border-bottom:1px solid var(--light);">− 10 % sur la deuxième pièce choisie</div>
-
 <section class="hero" style="margin-top:0">
   <img class="hero-img" src="https://wsrv.nl/?url=i.ibb.co/Mkz2MQgn/IMG-6875.jpg" alt="Sarani Paris">
   <div class="hero-overlay"></div>
@@ -166,88 +183,10 @@ footer{background:var(–dark);color:#fff;padding:48px 24px 36px;text-align:cent
 <div id="layali">
   <div class="col-header"><h2>Abaya Layali</h2><p>Fait dans notre maison de couture Sarani Paris</p><div class="col-count">4 Article(s)</div></div>
   <div class="products-grid">
-
-```
-<div class="product-card">
-  <div class="carousel" id="car-noir">
-    <div class="slides" id="slides-noir">
-      <img src="https://wsrv.nl/?url=i.ibb.co/LLD7WMd/09-C9937-F-F3-CA-4-CE2-8738-00-B73333-F58-F.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/bMRjWRJN/EB0-D68-EA-3-AE3-46-EF-9-AB2-8-B97-EB0-D756-F.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/XfGW2hjy/62767857-154-C-459-A-AD18-F35-C47941-B2-D-2.jpg" class="slide" alt="">
-    </div>
-    <button class="carr-btn left" onclick="changeSlide('noir',-1)">&#8249;</button>
-    <button class="carr-btn right" onclick="changeSlide('noir',1)">&#8250;</button>
-    <div class="cdots" id="dots-noir"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div>
-  </div>
-  <div class="product-info">
-    <p class="product-cat">Abaya Layali · Velours</p>
-    <h3 class="product-name">Noir Absolu</h3>
-    <div class="dots"><div class="dot dot-noir on"></div></div>
-    <p class="product-price">95 €</p>
-    <a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Layali Noir Absolu" class="btn-wa">Commander</a>
-  </div>
-</div>
-
-<div class="product-card">
-  <div class="carousel" id="car-bleu">
-    <div class="slides" id="slides-bleu">
-      <img src="https://wsrv.nl/?url=i.ibb.co/QvTnGbxr/FC011-E42-D0-F5-43-C5-BB8-F-863-D7841-D06-D.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/KpP2qJ3w/E6-D576-C5-6-A92-4-EA4-8-D7-F-20630-D086358.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/vrmgLtV/3-B1-AA5-A4-7449-40-F5-A83-C-299-A47-F18-E41.jpg" class="slide" alt="">
-    </div>
-    <button class="carr-btn left" onclick="changeSlide('bleu',-1)">&#8249;</button>
-    <button class="carr-btn right" onclick="changeSlide('bleu',1)">&#8250;</button>
-    <div class="cdots" id="dots-bleu"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div>
-  </div>
-  <div class="product-info">
-    <p class="product-cat">Abaya Layali · Velours</p>
-    <h3 class="product-name">Bleu Royal</h3>
-    <div class="dots"><div class="dot dot-bleu on"></div></div>
-    <p class="product-price">95 €</p>
-    <a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Layali Bleu Royal" class="btn-wa">Commander</a>
-  </div>
-</div>
-
-<div class="product-card">
-  <div class="carousel" id="car-kaki">
-    <div class="slides" id="slides-kaki">
-      <img src="https://wsrv.nl/?url=i.ibb.co/67chVbG4/2-B303-AFE-FE98-4374-B4-D4-93-FC1582-AE40.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/pvJK4zP9/D270-E66-D-9-DF1-4772-B80-B-8377-E64-E7084.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/LzTRCxzn/BFAA9188-9-E5-A-405-A-A335-5-D5231-BBF631.jpg" class="slide" alt="">
-    </div>
-    <button class="carr-btn left" onclick="changeSlide('kaki',-1)">&#8249;</button>
-    <button class="carr-btn right" onclick="changeSlide('kaki',1)">&#8250;</button>
-    <div class="cdots" id="dots-kaki"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div>
-  </div>
-  <div class="product-info">
-    <p class="product-cat">Abaya Layali · Velours</p>
-    <h3 class="product-name">Kaki</h3>
-    <div class="dots"><div class="dot dot-kaki on"></div></div>
-    <p class="product-price">95 €</p>
-    <a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Layali Kaki" class="btn-wa">Commander</a>
-  </div>
-</div>
-
-<div class="product-card">
-  <div class="carousel" id="car-gris">
-    <div class="slides" id="slides-gris">
-      <img src="https://wsrv.nl/?url=i.ibb.co/sdCKLJp4/98805758-75c3-4b95-a9c4-5ac0e8b2d87b.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/6VwTN1V/IMG-1097.jpg" class="slide" alt="">
-    </div>
-    <button class="carr-btn left" onclick="changeSlide('gris',-1)">&#8249;</button>
-    <button class="carr-btn right" onclick="changeSlide('gris',1)">&#8250;</button>
-    <div class="cdots" id="dots-gris"><span class="cdot active"></span><span class="cdot"></span></div>
-  </div>
-  <div class="product-info">
-    <p class="product-cat">Abaya Layali · Velours</p>
-    <h3 class="product-name">Gris Acier</h3>
-    <div class="dots"><div class="dot dot-gris on"></div></div>
-    <p class="product-price">95 €</p>
-    <a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Layali Gris Acier" class="btn-wa">Commander</a>
-  </div>
-</div>
-```
-
+    <div class="product-card"><div class="carousel" id="car-noir"><div class="slides"><img src="https://wsrv.nl/?url=i.ibb.co/LLD7WMd/09-C9937-F-F3-CA-4-CE2-8738-00-B73333-F58-F.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/bMRjWRJN/EB0-D68-EA-3-AE3-46-EF-9-AB2-8-B97-EB0-D756-F.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/XfGW2hjy/62767857-154-C-459-A-AD18-F35-C47941-B2-D-2.jpg" class="slide" onclick="openLightbox(this.src)"></div><button class="carr-btn left" onclick="changeSlide('noir',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('noir',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Layali · Velours</p><h3 class="product-name">Noir Absolu</h3><div class="dots"><div class="dot dot-noir on"></div></div><p class="product-price">95 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Layali Noir Absolu" class="btn-wa">Commander</a></div></div>
+    <div class="product-card"><div class="carousel" id="car-bleu"><div class="slides"><img src="https://wsrv.nl/?url=i.ibb.co/QvTnGbxr/FC011-E42-D0-F5-43-C5-BB8-F-863-D7841-D06-D.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/KpP2qJ3w/E6-D576-C5-6-A92-4-EA4-8-D7-F-20630-D086358.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/vrmgLtV/3-B1-AA5-A4-7449-40-F5-A83-C-299-A47-F18-E41.jpg" class="slide" onclick="openLightbox(this.src)"></div><button class="carr-btn left" onclick="changeSlide('bleu',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('bleu',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Layali · Velours</p><h3 class="product-name">Bleu Royal</h3><div class="dots"><div class="dot dot-bleu on"></div></div><p class="product-price">95 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Layali Bleu Royal" class="btn-wa">Commander</a></div></div>
+    <div class="product-card"><div class="carousel" id="car-kaki"><div class="slides"><img src="https://wsrv.nl/?url=i.ibb.co/67chVbG4/2-B303-AFE-FE98-4374-B4-D4-93-FC1582-AE40.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/pvJK4zP9/D270-E66-D-9-DF1-4772-B80-B-8377-E64-E7084.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/LzTRCxzn/BFAA9188-9-E5-A-405-A-A335-5-D5231-BBF631.jpg" class="slide" onclick="openLightbox(this.src)"></div><button class="carr-btn left" onclick="changeSlide('kaki',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('kaki',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Layali · Velours</p><h3 class="product-name">Kaki</h3><div class="dots"><div class="dot dot-kaki on"></div></div><p class="product-price">95 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Layali Kaki" class="btn-wa">Commander</a></div></div>
+    <div class="product-card"><div class="carousel" id="car-gris"><div class="slides"><img src="https://wsrv.nl/?url=i.ibb.co/sdCKLJp4/98805758-75c3-4b95-a9c4-5ac0e8b2d87b.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/6VwTN1V/IMG-1097.jpg" class="slide" onclick="openLightbox(this.src)"></div><button class="carr-btn left" onclick="changeSlide('gris',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('gris',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Layali · Velours</p><h3 class="product-name">Gris Acier</h3><div class="dots"><div class="dot dot-gris on"></div></div><p class="product-price">95 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Layali Gris Acier" class="btn-wa">Commander</a></div></div>
   </div>
 </div>
 
@@ -258,129 +197,12 @@ footer{background:var(–dark);color:#fff;padding:48px 24px 36px;text-align:cent
 <div id="blazer">
   <div class="col-header"><h2>Abaya Blazer</h2><p>Fait dans notre maison de couture Sarani Paris</p><div class="col-count">6 Article(s)</div></div>
   <div class="products-grid">
-
-```
-<div class="product-card">
-  <div class="carousel" id="car-bz1">
-    <div class="slides" id="slides-bz1">
-      <img src="https://wsrv.nl/?url=i.ibb.co/XrNF0V5f/temp-image-E9-F04-F55-B3-D3-4-F47-93-D2-62-C3-F5811375.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/v4GgwkX6/IMG-9794.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/6Jq3v3W9/IMG-9782.jpg" class="slide" alt="">
-    </div>
-    <button class="carr-btn left" onclick="changeSlide('bz1',-1)">&#8249;</button>
-    <button class="carr-btn right" onclick="changeSlide('bz1',1)">&#8250;</button>
-    <div class="cdots" id="dots-bz1"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div>
-  </div>
-  <div class="product-info">
-    <p class="product-cat">Abaya Blazer</p>
-    <h3 class="product-name">Gris Chiné</h3>
-    <div class="dots"><div class="dot dot-beige on"></div></div>
-    <p class="product-price">69,90 €</p>
-    <a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Blazer Gris Chiné" class="btn-wa">Commander</a>
-  </div>
-</div>
-
-<div class="product-card">
-  <div class="carousel" id="car-bz2">
-    <div class="slides" id="slides-bz2">
-      <img src="https://wsrv.nl/?url=i.ibb.co/mVwKBDbZ/IMG-9809.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/dJPV1LzL/IMG-9807.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/yc2GZ5Q1/IMG-9808.jpg" class="slide" alt="">
-    </div>
-    <button class="carr-btn left" onclick="changeSlide('bz2',-1)">&#8249;</button>
-    <button class="carr-btn right" onclick="changeSlide('bz2',1)">&#8250;</button>
-    <div class="cdots" id="dots-bz2"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div>
-  </div>
-  <div class="product-info">
-    <p class="product-cat">Abaya Blazer · Rayé</p>
-    <h3 class="product-name">Gris Rayé</h3>
-    <div class="dots"><div class="dot dot-gris on"></div></div>
-    <p class="product-price">69,90 €</p>
-    <a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Blazer Gris Rayé" class="btn-wa">Commander</a>
-  </div>
-</div>
-
-<div class="product-card">
-  <div class="carousel" id="car-bz3">
-    <div class="slides" id="slides-bz3">
-      <img src="https://wsrv.nl/?url=i.ibb.co/fGnBjvNP/IMG-6859.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/F4Xxcjg0/IMG-7331.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/cPV70sX/7-B12-A499-B5-AE-464-F-993-B-62-F12-F253457.jpg" class="slide" alt="">
-    </div>
-    <button class="carr-btn left" onclick="changeSlide('bz3',-1)">&#8249;</button>
-    <button class="carr-btn right" onclick="changeSlide('bz3',1)">&#8250;</button>
-    <div class="cdots" id="dots-bz3"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div>
-  </div>
-  <div class="product-info">
-    <p class="product-cat">Abaya Blazer · Rayé</p>
-    <h3 class="product-name">Bleu Clair Rayé</h3>
-    <div class="dots"><div class="dot dot-bleu-clair on"></div></div>
-    <p class="product-price">69,90 €</p>
-    <a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Blazer Bleu Clair Rayé" class="btn-wa">Commander</a>
-  </div>
-</div>
-
-<div class="product-card">
-  <div class="carousel" id="car-bz4">
-    <div class="slides" id="slides-bz4">
-      <img src="https://wsrv.nl/?url=i.ibb.co/ccSpTLRc/IMG-0142.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/bjRDGpBk/IMG-0136.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/tT0b5Vhv/IMG-1070.jpg" class="slide" alt="">
-    </div>
-    <button class="carr-btn left" onclick="changeSlide('bz4',-1)">&#8249;</button>
-    <button class="carr-btn right" onclick="changeSlide('bz4',1)">&#8250;</button>
-    <div class="cdots" id="dots-bz4"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div>
-  </div>
-  <div class="product-info">
-    <p class="product-cat">Abaya Blazer</p>
-    <h3 class="product-name">Charcoal Grey</h3>
-    <div class="dots"><div class="dot dot-charcoal on"></div></div>
-    <p class="product-price">69,90 €</p>
-    <a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Blazer Charcoal Grey" class="btn-wa">Commander</a>
-  </div>
-</div>
-
-<div class="product-card">
-  <div class="carousel" id="car-bz5">
-    <div class="slides" id="slides-bz5">
-      <img src="https://wsrv.nl/?url=i.ibb.co/R4y7CJkV/IMG-6862.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/Lhbq1cjw/IMG-1158.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/MxSxXbZd/IMG-1160.jpg" class="slide" alt="">
-    </div>
-    <button class="carr-btn left" onclick="changeSlide('bz5',-1)">&#8249;</button>
-    <button class="carr-btn right" onclick="changeSlide('bz5',1)">&#8250;</button>
-    <div class="cdots" id="dots-bz5"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div>
-  </div>
-  <div class="product-info">
-    <p class="product-cat">Abaya Blazer · Rayé</p>
-    <h3 class="product-name">Rayé Noir</h3>
-    <div class="dots"><div class="dot dot-noir on"></div></div>
-    <p class="product-price">69,90 €</p>
-    <a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Blazer Rayé Noir" class="btn-wa">Commander</a>
-  </div>
-</div>
-
-<div class="product-card">
-  <div class="carousel" id="car-bz6">
-    <div class="slides" id="slides-bz6">
-      <img src="https://wsrv.nl/?url=i.ibb.co/sdDYQSz0/05fb97f6-184c-4f10-9155-d68bcf1e058c.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/gK5N0gw/IMG-6854.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/JWk9pf7k/IMG-6853.jpg" class="slide" alt="">
-    </div>
-    <button class="carr-btn left" onclick="changeSlide('bz6',-1)">&#8249;</button>
-    <button class="carr-btn right" onclick="changeSlide('bz6',1)">&#8250;</button>
-    <div class="cdots" id="dots-bz6"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div>
-  </div>
-  <div class="product-info">
-    <p class="product-cat">Abaya Blazer · Rayé</p>
-    <h3 class="product-name">Bleu Marine Rayé</h3>
-    <div class="dots"><div class="dot dot-bleu-marine on"></div></div>
-    <p class="product-price">69,90 €</p>
-    <a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Blazer Bleu Marine Rayé" class="btn-wa">Commander</a>
-  </div>
-</div>
-```
-
+    <div class="product-card"><div class="carousel" id="car-bz1"><div class="slides"><img src="https://wsrv.nl/?url=i.ibb.co/XrNF0V5f/temp-image-E9-F04-F55-B3-D3-4-F47-93-D2-62-C3-F5811375.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/v4GgwkX6/IMG-9794.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/6Jq3v3W9/IMG-9782.jpg" class="slide" onclick="openLightbox(this.src)"></div><button class="carr-btn left" onclick="changeSlide('bz1',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('bz1',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Blazer</p><h3 class="product-name">Gris Chiné</h3><div class="dots"><div class="dot dot-beige on"></div></div><p class="product-price">69,90 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Blazer Gris Chiné" class="btn-wa">Commander</a></div></div>
+    <div class="product-card"><div class="carousel" id="car-bz2"><div class="slides"><img src="https://wsrv.nl/?url=i.ibb.co/mVwKBDbZ/IMG-9809.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/dJPV1LzL/IMG-9807.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/yc2GZ5Q1/IMG-9808.jpg" class="slide" onclick="openLightbox(this.src)"></div><button class="carr-btn left" onclick="changeSlide('bz2',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('bz2',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Blazer · Rayé</p><h3 class="product-name">Gris Rayé</h3><div class="dots"><div class="dot dot-gris on"></div></div><p class="product-price">69,90 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Blazer Gris Rayé" class="btn-wa">Commander</a></div></div>
+    <div class="product-card"><div class="carousel" id="car-bz3"><div class="slides"><img src="https://wsrv.nl/?url=i.ibb.co/fGnBjvNP/IMG-6859.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/F4Xxcjg0/IMG-7331.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/cPV70sX/7-B12-A499-B5-AE-464-F-993-B-62-F12-F253457.jpg" class="slide" onclick="openLightbox(this.src)"></div><button class="carr-btn left" onclick="changeSlide('bz3',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('bz3',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Blazer · Rayé</p><h3 class="product-name">Bleu Clair Rayé</h3><div class="dots"><div class="dot dot-bleu-clair on"></div></div><p class="product-price">69,90 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Blazer Bleu Clair Rayé" class="btn-wa">Commander</a></div></div>
+    <div class="product-card"><div class="carousel" id="car-bz4"><div class="slides"><img src="https://wsrv.nl/?url=i.ibb.co/ccSpTLRc/IMG-0142.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/bjRDGpBk/IMG-0136.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/tT0b5Vhv/IMG-1070.jpg" class="slide" onclick="openLightbox(this.src)"></div><button class="carr-btn left" onclick="changeSlide('bz4',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('bz4',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Blazer</p><h3 class="product-name">Charcoal Grey</h3><div class="dots"><div class="dot dot-charcoal on"></div></div><p class="product-price">69,90 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Blazer Charcoal Grey" class="btn-wa">Commander</a></div></div>
+    <div class="product-card"><div class="carousel" id="car-bz5"><div class="slides"><img src="https://wsrv.nl/?url=i.ibb.co/R4y7CJkV/IMG-6862.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/Lhbq1cjw/IMG-1158.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/MxSxXbZd/IMG-1160.jpg" class="slide" onclick="openLightbox(this.src)"></div><button class="carr-btn left" onclick="changeSlide('bz5',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('bz5',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Blazer · Rayé</p><h3 class="product-name">Rayé Noir</h3><div class="dots"><div class="dot dot-noir on"></div></div><p class="product-price">69,90 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Blazer Rayé Noir" class="btn-wa">Commander</a></div></div>
+    <div class="product-card"><div class="carousel" id="car-bz6"><div class="slides"><img src="https://wsrv.nl/?url=i.ibb.co/sdDYQSz0/05fb97f6-184c-4f10-9155-d68bcf1e058c.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/gK5N0gw/IMG-6854.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/JWk9pf7k/IMG-6853.jpg" class="slide" onclick="openLightbox(this.src)"></div><button class="carr-btn left" onclick="changeSlide('bz6',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('bz6',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Blazer · Rayé</p><h3 class="product-name">Bleu Marine Rayé</h3><div class="dots"><div class="dot dot-bleu-marine on"></div></div><p class="product-price">69,90 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Blazer Bleu Marine Rayé" class="btn-wa">Commander</a></div></div>
   </div>
 </div>
 
@@ -391,53 +213,8 @@ footer{background:var(–dark);color:#fff;padding:48px 24px 36px;text-align:cent
 <div id="omaniya">
   <div class="col-header"><h2>Abaya Omaniya</h2><p>Fait dans notre maison de couture Sarani Paris</p><div class="col-count">2 Article(s)</div></div>
   <div class="products-grid">
-
-```
-<div class="product-card">
-  <div class="carousel" id="car-om1">
-    <div class="slides" id="slides-om1">
-      <img src="https://wsrv.nl/?url=i.ibb.co/xqqMqLJS/IMG-6869.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/t10tFzP/IMG-6867.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/svMcCk4m/IMG-6809.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/6RCNFb4M/IMG-6808.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/bRqQbQVt/IMG-0963.jpg" class="slide" alt="">
-    </div>
-    <button class="carr-btn left" onclick="changeSlide('om1',-1)">&#8249;</button>
-    <button class="carr-btn right" onclick="changeSlide('om1',1)">&#8250;</button>
-    <div class="cdots" id="dots-om1"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span><span class="cdot"></span><span class="cdot"></span></div>
-  </div>
-  <div class="product-info">
-    <p class="product-cat">Abaya Omaniya · Velours</p>
-    <h3 class="product-name">Rouge Velvet Absolu</h3>
-    <div class="dots"><div class="dot dot-bordeaux on"></div></div>
-    <p class="product-price">99 €</p>
-    <a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Omaniya Rouge Velvet Absolu" class="btn-wa">Commander</a>
-  </div>
-</div>
-
-<div class="product-card">
-  <div class="carousel" id="car-om2">
-    <div class="slides" id="slides-om2">
-      <img src="https://wsrv.nl/?url=i.ibb.co/x8DPQPpv/IMG-6871.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/wFPVrWZM/IMG-0927.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/9HpMvxJ3/IMG-0925.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/nKNCCKg/IMG-0924.jpg" class="slide" alt="">
-      <img src="https://wsrv.nl/?url=i.ibb.co/ynTQQSMG/IMG-0905.jpg" class="slide" alt="">
-    </div>
-    <button class="carr-btn left" onclick="changeSlide('om2',-1)">&#8249;</button>
-    <button class="carr-btn right" onclick="changeSlide('om2',1)">&#8250;</button>
-    <div class="cdots" id="dots-om2"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span><span class="cdot"></span><span class="cdot"></span></div>
-  </div>
-  <div class="product-info">
-    <p class="product-cat">Abaya Omaniya · Velours</p>
-    <h3 class="product-name">Noir Velvet</h3>
-    <div class="dots"><div class="dot dot-noir on"></div></div>
-    <p class="product-price">99 €</p>
-    <a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Omaniya Noir Velvet" class="btn-wa">Commander</a>
-  </div>
-</div>
-```
-
+    <div class="product-card"><div class="carousel" id="car-om1"><div class="slides"><img src="https://wsrv.nl/?url=i.ibb.co/xqqMqLJS/IMG-6869.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/t10tFzP/IMG-6867.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/svMcCk4m/IMG-6809.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/6RCNFb4M/IMG-6808.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/bRqQbQVt/IMG-0963.jpg" class="slide" onclick="openLightbox(this.src)"></div><button class="carr-btn left" onclick="changeSlide('om1',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('om1',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span><span class="cdot"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Omaniya · Velours</p><h3 class="product-name">Rouge Velvet Absolu</h3><div class="dots"><div class="dot dot-bordeaux on"></div></div><p class="product-price">99 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Omaniya Rouge Velvet Absolu" class="btn-wa">Commander</a></div></div>
+    <div class="product-card"><div class="carousel" id="car-om2"><div class="slides"><img src="https://wsrv.nl/?url=i.ibb.co/x8DPQPpv/IMG-6871.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/wFPVrWZM/IMG-0927.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/9HpMvxJ3/IMG-0925.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/nKNCCKg/IMG-0924.jpg" class="slide" onclick="openLightbox(this.src)"><img src="https://wsrv.nl/?url=i.ibb.co/ynTQQSMG/IMG-0905.jpg" class="slide" onclick="openLightbox(this.src)"></div><button class="carr-btn left" onclick="changeSlide('om2',-1)">&#8249;</button><button class="carr-btn right" onclick="changeSlide('om2',1)">&#8250;</button><div class="cdots"><span class="cdot active"></span><span class="cdot"></span><span class="cdot"></span><span class="cdot"></span><span class="cdot"></span></div></div><div class="product-info"><p class="product-cat">Abaya Omaniya · Velours</p><h3 class="product-name">Noir Velvet</h3><div class="dots"><div class="dot dot-noir on"></div></div><p class="product-price">99 €</p><a href="https://wa.me/33619569050?text=Bonjour, je veux commander l'Abaya Omaniya Noir Velvet" class="btn-wa">Commander</a></div></div>
   </div>
 </div>
 
@@ -457,7 +234,9 @@ footer{background:var(–dark);color:#fff;padding:48px 24px 36px;text-align:cent
   <h2>Chaque point,<br>un <em>geste d'amour</em></h2>
   <p>Sarani Paris, c'est l'histoire de deux sœurs unies par une même passion — créer des pièces uniques, cousues et brodées à la main avec amour et savoir-faire.</p>
   <p>Retrait de commande disponible en Île-de-France · Paiement en espèces disponible en Île-de-France</p>
-  <a href="https://wa.me/33619569050" class="btn-outline">Commander une pièce</a>
+
+<a href="https://wa.me/33619569050" class="btn-outline">Commander une pièce</a>
+
 </section>
 
 <footer>
@@ -478,60 +257,54 @@ footer{background:var(–dark);color:#fff;padding:48px 24px 36px;text-align:cent
 </a>
 
 <script>
-var carState = {};
+var carState={};
+function changeSlide(uid,dir){
+  var car=document.getElementById('car-'+uid);
+  var slides=car.querySelector('.slides');
+  var n=slides.children.length;
+  if(!carState[uid])carState[uid]=0;
+  carState[uid]=(carState[uid]+dir+n)%n;
+  slides.style.transform='translateX(-'+(carState[uid]*100)+'%)';
+  car.querySelectorAll('.cdot').forEach(function(d,i){d.classList.toggle('active',i===carState[uid])});
+}
+function openMenu(){document.getElementById('sideMenu').classList.add('open');document.getElementById('menuOverlay').classList.add('open')}
+function closeMenu(){document.getElementById('sideMenu').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open')}
 
-function changeSlide(uid, dir) {
-  var slidesEl = document.getElementById('slides-' + uid);
-  var dotsEl = document.getElementById('dots-' + uid);
-  if (!slidesEl) return;
-  var n = slidesEl.children.length;
-  if (!carState[uid]) carState[uid] = 0;
-  carState[uid] = (carState[uid] + dir + n) % n;
-  slidesEl.style.transform = 'translateX(-' + (carState[uid] * 100) + '%)';
-  if (dotsEl) {
-    var cdots = dotsEl.querySelectorAll('.cdot');
-    cdots.forEach(function(d, i) { d.classList.toggle('active', i === carState[uid]); });
-  }
+function openLightbox(src){
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
 }
-
-function openMenu() {
-  document.getElementById('sideMenu').classList.add('open');
-  document.getElementById('menuOverlay').classList.add('open');
-}
-function closeMenu() {
-  document.getElementById('sideMenu').classList.remove('open');
-  document.getElementById('menuOverlay').classList.remove('open');
-}
-function goTo(id) {
-  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
 }
 
-// Touch/swipe support
+function goTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+
+
+
+// Touch/swipe support for carousels
 document.querySelectorAll('.carousel').forEach(function(car) {
   var startX = 0;
   var uid = car.id.replace('car-', '');
+  
   car.addEventListener('touchstart', function(e) {
     startX = e.touches[0].clientX;
-  }, { passive: true });
+  }, {passive: true});
+  
   car.addEventListener('touchend', function(e) {
     var diff = startX - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 40) {
-      changeSlide(uid, diff > 0 ? 1 : -1);
+      if (diff > 0) changeSlide(uid, 1);
+      else changeSlide(uid, -1);
     }
-  }, { passive: true });
+  }, {passive: true});
 });
 
-// Force correct width on all slides after load
-window.addEventListener('load', function() {
-  document.querySelectorAll('.carousel').forEach(function(car) {
-    var uid = car.id.replace('car-', '');
-    var slidesEl = document.getElementById('slides-' + uid);
-    if (slidesEl) {
-      slidesEl.style.transform = 'translateX(0%)';
-    }
-  });
-});
 </script>
 
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">×</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
 </body>
 </html>
